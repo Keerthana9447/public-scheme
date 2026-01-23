@@ -1,0 +1,179 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@300;500&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f9f9f9, #e6f2ff);
+  color: #333;
+}
+
+header {
+  background: linear-gradient(90deg, #ff6f61, #ffcc00);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+header h1 {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin: 0 15px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #333;
+}
+
+main, h2 {
+  text-align: center;
+  margin: 20px;
+}
+
+form {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 400px;
+  margin: 20px auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 2px solid #ff6f61;
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+}
+
+button {
+  background: linear-gradient(90deg, #ff6f61, #ffcc00);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+#results, #chat-response {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fff3cd;
+  border: 2px solid #ffeeba;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+#results p, #chat-response p {
+  margin: 0;
+}
+.badge-container {
+  margin-top: 10px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 5px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+}
+
+.badge.eligible {
+  background: linear-gradient(90deg, #28a745, #5cd65c); /* green gradient */
+}
+
+.badge.not-eligible {
+  background: linear-gradient(90deg, #dc3545, #ff6f61); /* red gradient */
+}
+
+#chat-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+  background: #f1f1f1;
+  border-radius: 12px;
+  height: 400px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.chat-message {
+  padding: 10px 15px;
+  margin: 8px;
+  border-radius: 20px;
+  max-width: 70%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+
+.chat-message.user {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+  color: white;
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat-message.bot {
+  background: linear-gradient(90deg, #43e97b, #38f9d7);
+  color: #333;
+  margin-right: auto;
+  text-align: left;
+}
+
+#input-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+#query {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #4facfe;
+  margin-right: 10px;
+}
+
+#ask-btn {
+  background: linear-gradient(90deg, #ff6f61, #ffcc00);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#ask-btn:hover {
+  transform: scale(1.05);
+}
