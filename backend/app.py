@@ -3,6 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from .rag_pipeline import RAGPipeline
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"message": "Backend is running!"}
 
 app = FastAPI(title="Public Scheme Navigator")
 rag = RAGPipeline()
