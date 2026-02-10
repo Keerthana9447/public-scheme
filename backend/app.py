@@ -1,11 +1,16 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+
 from .rag_pipeline import RAGPipeline
 
 app = FastAPI(title="Public Scheme Navigator")
 rag = RAGPipeline()
 
-# Allow frontend requests
+# --- Serve frontend files at /frontend ---
+app.mount("/frontend", StaticFiles(directory="frontend", html=True), name="frontend")
+
+# --- Allow frontend requests ---
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # allow all origins for local dev
@@ -13,6 +18,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# --- Eligibility Checker ---
 @app.get("/eligibility")
 def check_eligibility(
     age: int = Query(...),
@@ -69,17 +76,38 @@ def get_guidance(scheme: str = Query(...)):
     }
     return {"scheme": scheme, "documents": guidance_map.get(scheme, ["No guidance available"])}
 
+# --- Chatbot ---
+import re
 
-# --- Chatbot (simple RAG-like response) ---
 @app.get("/chat")
-def chat(query: str, age: int = None, income: int = None):
-    eligible = []
-    if age and income:
-        if 10 <= age <= 25 and income <= 200000:
-            eligible.append("Scholarship for Students")
-        if income <= 150000:
-            eligible.append("Healthcare Subsidy")
+def chat(query: str):
+    response = rag.generate_answer(query)
 
-    if eligible:
-        return {"response": f"Based on your age {age} and income {income}, you are eligible for: {', '.join(eligible)}."}
-    return {"response": f"I found schemes related to your query '{query}'. Please provide age and income for eligibility check."}
+    # Try to extract age and income from query text
+    age_match = re.search(r"\b(\d{1,2})\b", query.lower())
+    income_match = re.search(r"\b(\d{4,6})\b", query)
+
+    age = int(age_match.group(1)) if age_match else None
+    income = int(income_match.group(1)) if income_match else None
+
+    if age is not None and income is not None:
+        schemes = rag.load_schemes()
+        eligible = []
+        for scheme in schemes:
+            if age >= scheme.get("min_age", 0) and age <= scheme.get("max_age", 200):
+                if income <= scheme.get("income_limit", 999999):
+                    eligible.append(scheme["name"])
+
+        if eligible:
+            eligible_str = ", ".join(eligible)
+            return {
+                "response": f"🎉 Great news! Based on age {age} and income {income}, you qualify for: {eligible_str}"
+            }
+        else:
+            return {
+                "response": f"😔 Sorry, based on age {age} and income {income}, you don’t qualify for any schemes."
+            }
+    else:
+        return {
+            "response": f"💡 I found schemes related to '{query}'. Please mention your age and income clearly (e.g., 'I am 21 years old with income 20000')."
+        }

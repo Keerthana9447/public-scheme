@@ -7,11 +7,24 @@
   <script src="js/chatbot.js" defer></script>
 </head>
 <body>
-  <h2>Ask the Chatbot</h2>
-  <div id="chat-container"></div>
-  <div id="input-area">
-    <input type="text" id="query" placeholder="Type your question...">
-    <button id="ask-btn">Ask</button>
-  </div>
+  <header>
+    <h1>Ask the Chatbot</h1>
+  </header>
+
+  <main>
+    <!-- Chat window -->
+    <div id="chat-container"></div>
+
+    <!-- Typing indicator -->
+    <div id="typing-indicator" class="hidden">
+      <span></span><span></span><span></span>
+    </div>
+
+    <!-- Input area -->
+    <div id="input-area">
+      <input type="text" id="query" placeholder="Type your question...">
+      <button id="ask-btn">Ask</button>
+    </div>
+  </main>
 </body>
 </html>

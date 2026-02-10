@@ -1,20 +1,57 @@
+// Add message to chat window
 function addMessage(text, sender) {
   const chatContainer = document.getElementById("chat-container");
   const msgDiv = document.createElement("div");
   msgDiv.classList.add("chat-message", sender);
   msgDiv.innerText = text;
   chatContainer.appendChild(msgDiv);
-  chatContainer.scrollTop = chatContainer.scrollHeight; // auto-scroll
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-document.getElementById("ask-btn").addEventListener("click", async () => {
-  const query = document.getElementById("query").value;
+// Typing indicator control
+function showTyping() {
+  document.getElementById("typing-indicator").classList.remove("hidden");
+}
+function hideTyping() {
+  document.getElementById("typing-indicator").classList.add("hidden");
+}
+
+// Function to send message
+async function sendMessage() {
+  const queryInput = document.getElementById("query");
+  const query = queryInput.value.trim();
+  const age = document.getElementById("chat-age")?.value;
+  const income = document.getElementById("chat-income")?.value;
   if (!query) return;
 
   addMessage(query, "user");
+  showTyping();
 
-  const res = await fetch(`http://127.0.0.1:8000/chat?query=${encodeURIComponent(query)}`);
-  const data = await res.json();
+  const url = new URL("http://127.0.0.1:8000/chat");
+  url.searchParams.append("query", query);
+  if (age) url.searchParams.append("age", age);
+  if (income) url.searchParams.append("income", income);
 
-  addMessage(data.response, "bot");
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    hideTyping();
+    addMessage(data.response, "bot");
+  } catch {
+    hideTyping();
+    addMessage("⚠️ Error fetching response. Is the backend running on port 8000?", "bot");
+  }
+
+  queryInput.value = "";
+}
+
+// Button click
+document.getElementById("ask-btn").addEventListener("click", sendMessage);
+
+// Keyboard support (Enter key)
+document.getElementById("query").addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    sendMessage();
+  }
 });
