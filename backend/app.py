@@ -11,6 +11,7 @@ app = FastAPI()
 def root():
     return {"message": "Backend is running!"}
 
+
 app = FastAPI(title="Public Scheme Navigator")
 rag = RAGPipeline()
 
