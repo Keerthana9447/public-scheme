@@ -1,5 +1,13 @@
 const API_BASE = "https://public-scheme-navigator.vercel.app";
 // For local testing, switch to: const API_BASE = "http://127.0.0.1:8000";
+import { API_BASE } from "./config.js";
+
+// Example fetch call
+async function checkEligibility(age, income, gender, occupation, scheme, disability) {
+  const response = await fetch(`${API_BASE}/eligibility?age=${age}&income=${income}&gender=${gender}&occupation=${occupation}&scheme=${scheme}&disability=${disability}`);
+  const data = await response.json();
+  return data;
+}
 
 document.getElementById("eligibility-form").addEventListener("submit", async (event) => {
   event.preventDefault();
