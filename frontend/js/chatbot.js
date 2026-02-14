@@ -1,5 +1,15 @@
 const API_BASE = "https://public-scheme-navigator.vercel.app";
 // For local testing, switch to: const API_BASE = "http://127.0.0.1:8000";
+import { API_BASE } from "./config.js";
+
+// Example fetch call for chatbot
+async function askChatbot(query, age, income) {
+  const response = await fetch(
+    `${API_BASE}/chat?query=${encodeURIComponent(query)}&age=${age}&income=${income}`
+  );
+  const data = await response.json();
+  return data;
+}
 
 // Add message to chat window
 function addMessage(text, sender) {
