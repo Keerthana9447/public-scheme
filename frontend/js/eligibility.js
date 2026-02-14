@@ -1,3 +1,6 @@
+const API_BASE = "https://public-scheme-navigator.vercel.app";
+// For local testing, switch to: const API_BASE = "http://127.0.0.1:8000";
+
 document.getElementById("eligibility-form").addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -12,7 +15,7 @@ document.getElementById("eligibility-form").addEventListener("submit", async (ev
   resultsDiv.innerText = "⏳ Checking eligibility...";
 
   try {
-    const url = new URL("http://127.0.0.1:8000/eligibility");
+    const url = new URL(`${API_BASE}/eligibility`);
     url.searchParams.append("age", age);
     url.searchParams.append("income", income);
     if (gender) url.searchParams.append("gender", gender);
@@ -30,6 +33,6 @@ document.getElementById("eligibility-form").addEventListener("submit", async (ev
         <div class="badge-container"><span class="badge not-eligible">${scheme}</span></div>`;
     }
   } catch {
-    resultsDiv.innerText = "⚠️ Error fetching eligibility. Is the backend running on port 8000?";
+    resultsDiv.innerText = "⚠️ Error fetching eligibility from backend.";
   }
 });

@@ -1,3 +1,6 @@
+const API_BASE = "https://public-scheme-navigator.vercel.app";
+// For local testing, switch to: const API_BASE = "http://127.0.0.1:8000";
+
 // Add message to chat window
 function addMessage(text, sender) {
   const chatContainer = document.getElementById("chat-container");
@@ -27,7 +30,7 @@ async function sendMessage() {
   addMessage(query, "user");
   showTyping();
 
-  const url = new URL("http://127.0.0.1:8000/chat");
+  const url = new URL(`${API_BASE}/chat`);
   url.searchParams.append("query", query);
   if (age) url.searchParams.append("age", age);
   if (income) url.searchParams.append("income", income);
@@ -39,7 +42,7 @@ async function sendMessage() {
     addMessage(data.response, "bot");
   } catch {
     hideTyping();
-    addMessage("⚠️ Error fetching response. Is the backend running on port 8000?", "bot");
+    addMessage("⚠️ Error fetching response from backend.", "bot");
   }
 
   queryInput.value = "";
